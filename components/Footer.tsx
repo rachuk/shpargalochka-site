@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const SERVICES = [
   { to: '/services', label: 'Усі послуги' },
@@ -14,6 +17,9 @@ const INFO = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith('/dashboard') || pathname.startsWith('/login')) return null;
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

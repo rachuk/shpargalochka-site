@@ -17,6 +17,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
+  if (pathname.startsWith('/dashboard') || pathname.startsWith('/login')) return null;
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
@@ -31,6 +33,10 @@ export function Header() {
               {n.label}
             </Link>
           ))}
+          <Link href="/login"
+            className="border border-violet-200 hover:border-violet-300 text-violet-700 px-4 py-2 rounded-xl text-sm font-semibold transition-colors">
+            Увійти
+          </Link>
           <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
             className="bg-violet-700 hover:bg-violet-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors shadow-sm shadow-violet-200">
             Замовити роботу
@@ -49,8 +55,12 @@ export function Header() {
             <Link key={n.to} href={n.to} onClick={() => setOpen(false)}
               className="block py-2.5 text-sm font-medium text-gray-700 hover:text-violet-700">{n.label}</Link>
           ))}
+          <Link href="/login" onClick={() => setOpen(false)}
+            className="block mt-3 text-center border border-violet-200 text-violet-700 px-5 py-2.5 rounded-xl text-sm font-semibold">
+            Увійти
+          </Link>
           <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-            className="block mt-3 text-center bg-violet-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
+            className="block mt-2 text-center bg-violet-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
             Замовити роботу
           </a>
         </div>
