@@ -145,26 +145,21 @@ export default function MessengerPage() {
       <div className="messenger-layout">
         {/* Left — Chat list */}
         <div className={`messenger-sidebar ${selectedChat ? 'hidden md:flex' : 'flex'}`}>
-          {/* Search */}
           <div className="p-3 border-b border-[var(--dash-border)]">
+            <h2 className="text-base font-bold text-[var(--dash-text)] mb-2">Чати</h2>
             <div className="relative">
               <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--dash-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
-              <input
-                type="text"
-                placeholder="Пошук чатів..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="dash-input pl-9 text-sm"
-              />
+              <input type="text" placeholder="Пошук..." value={search} onChange={e => setSearch(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 rounded-xl border border-[var(--dash-border)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dash-accent)]/20 focus:border-[var(--dash-accent)]" />
             </div>
           </div>
 
-          {/* Chat items */}
           <div className="flex-1 overflow-y-auto chat-scroll">
             {filteredChats.length === 0 ? (
               <div className="p-8 text-center">
+                <div className="text-3xl mb-2">💬</div>
                 <p className="text-sm text-[var(--dash-text-muted)]">
                   {chats.length === 0 ? 'Немає активних чатів' : 'Нічого не знайдено'}
                 </p>
@@ -173,17 +168,16 @@ export default function MessengerPage() {
               filteredChats.map(chat => {
                 const other = getOtherUser(chat);
                 const isActive = selectedChat?.id === chat.id;
+                const initials = (other.name || '?').split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
                 return (
-                  <div
-                    key={chat.id}
+                  <div key={chat.id}
                     className={`messenger-chat-item ${isActive ? 'active' : ''}`}
-                    onClick={() => openChat(chat)}
-                  >
+                    onClick={() => openChat(chat)}>
                     {other.avatar ? (
-                      <img src={other.avatar} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
+                      <img src={other.avatar} alt="" className="w-11 h-11 rounded-full object-cover shrink-0" />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-[var(--dash-accent-bg)] flex items-center justify-center text-[var(--dash-accent)] font-semibold text-sm shrink-0">
-                        {(other.name || '?')[0].toUpperCase()}
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[var(--dash-accent)] to-[var(--dash-accent-light)] flex items-center justify-center text-white font-semibold text-sm shrink-0">
+                        {initials}
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -195,13 +189,9 @@ export default function MessengerPage() {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-[var(--dash-text-muted)] truncate mt-0.5">
-                        {chat.task_subject}
-                      </p>
+                      <p className="text-[11px] text-[var(--dash-accent)] truncate mt-0.5 font-medium">{chat.task_subject}</p>
                       {chat.last_message && (
-                        <p className="text-xs text-[var(--dash-text-muted)] truncate mt-0.5">
-                          {chat.last_message.content}
-                        </p>
+                        <p className="text-xs text-[var(--dash-text-muted)] truncate mt-0.5">{chat.last_message.content}</p>
                       )}
                     </div>
                     {chat.unread_count > 0 && (
@@ -225,8 +215,8 @@ export default function MessengerPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-[var(--dash-text)] mb-1">Оберіть переписку</h3>
-              <p className="text-sm text-[var(--dash-text-muted)]">Щоб почати спілкування, оберіть чат зі списку</p>
+              <h3 className="text-lg font-bold text-[var(--dash-text)] mb-1">Оберіть переписку</h3>
+              <p className="text-sm text-[var(--dash-text-muted)]">Виберіть чат зі списку для спілкування</p>
             </div>
           ) : (
             <>
@@ -238,10 +228,12 @@ export default function MessengerPage() {
                   </svg>
                 </button>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[var(--dash-text)] truncate">{selectedChat.task_subject}</p>
-                  <div className="flex items-center gap-1.5">
-                    <span className={`w-2 h-2 rounded-full ${connected ? 'bg-[var(--dash-success)]' : 'bg-gray-300'}`} />
-                    <span className="text-xs text-[var(--dash-text-muted)]">{connected ? 'Онлайн' : 'Офлайн'}</span>
+                  <p className="text-sm font-bold text-[var(--dash-text)] truncate">
+                    {getOtherUser(selectedChat).name}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-[var(--dash-accent)] truncate">{selectedChat.task_subject}</span>
+                    <span className={`w-2 h-2 rounded-full shrink-0 ${connected ? 'bg-[var(--dash-success)]' : 'bg-gray-300'}`} />
                   </div>
                 </div>
               </div>
@@ -254,8 +246,8 @@ export default function MessengerPage() {
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <p className="text-[var(--dash-text-muted)] text-sm">Повідомлень поки немає</p>
-                    <p className="text-xs text-[var(--dash-text-muted)] mt-1 opacity-60">Напишіть першими</p>
+                    <div className="text-3xl mb-2">👋</div>
+                    <p className="text-sm text-[var(--dash-text-muted)]">Напишіть першими</p>
                   </div>
                 ) : (
                   messages.map(msg => {
@@ -264,8 +256,8 @@ export default function MessengerPage() {
                       <div key={msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
                           isMine
-                            ? 'bg-[var(--dash-accent)] text-white rounded-br-lg'
-                            : 'bg-[var(--dash-accent-bg)] text-[var(--dash-text)] rounded-bl-lg'
+                            ? 'bg-[var(--dash-accent)] text-white rounded-br-md'
+                            : 'bg-white border border-[var(--dash-border)] text-[var(--dash-text)] rounded-bl-md'
                         }`}>
                           {!isMine && (
                             <p className="text-[11px] font-semibold mb-0.5 text-[var(--dash-accent)]">{msg.sender_name}</p>
@@ -274,10 +266,7 @@ export default function MessengerPage() {
                           {msg.file && (
                             <a href={msg.file.file_url || '#'} target="_blank" rel="noopener noreferrer"
                               className={`inline-flex items-center gap-1 text-xs mt-1.5 underline ${isMine ? 'text-white/70' : 'text-[var(--dash-accent)]'}`}>
-                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
-                              </svg>
-                              {(msg.file.file_url || '').split('/').pop() || 'файл'}
+                              📎 {(msg.file.file_url || '').split('/').pop() || 'файл'}
                             </a>
                           )}
                           <div className={`flex items-center gap-1.5 mt-1 ${isMine ? 'justify-end' : ''}`}>
@@ -318,7 +307,7 @@ export default function MessengerPage() {
                     className="flex-1 resize-none rounded-xl border border-[var(--dash-border)] px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dash-accent)]/20 focus:border-[var(--dash-accent)] transition-all"
                   />
                   <button onClick={sendMessage} disabled={!input.trim() || sending}
-                    className="shrink-0 p-2.5 bg-[var(--dash-accent)] text-white rounded-xl hover:bg-[var(--dash-accent-hover)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                    className="shrink-0 p-2.5 bg-[var(--dash-accent)] text-white rounded-xl hover:bg-[var(--dash-accent-hover)] disabled:opacity-30 transition-colors">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                     </svg>
