@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchAuth } from '@/lib/auth';
-import { useAuth } from '@/providers/AuthProvider';
 import { useRole } from '../layout';
 
 interface Task {
@@ -12,42 +11,34 @@ interface Task {
   status: string;
   deadline: string | null;
   price: string | null;
+  executor_name: string | null;
   date_add: string;
 }
 
-const STATUS_LABELS: Record<string, string> = {
-  active: 'Опубліковано',
-  in_progress: 'В роботі',
-  review: 'На перевірці',
-  completed: 'Завершено',
-  expired: 'Прострочено',
-};
-
-const STATUS_COLORS: Record<string, string> = {
-  active: 'bg-green-100 text-green-700',
-  in_progress: 'bg-blue-100 text-blue-700',
-  review: 'bg-yellow-100 text-yellow-700',
-  completed: 'bg-gray-100 text-gray-600',
-  expired: 'bg-red-100 text-red-700',
+const STATUS_MAP: Record<string, { label: string; cls: string }> = {
+  active: { label: 'Опубліковано', cls: 'dash-badge-active' },
+  published: { label: 'Опубліковано', cls: 'dash-badge-active' },
+  in_progress: { label: 'В роботі', cls: 'dash-badge-progress' },
+  review: { label: 'На перевірці', cls: 'dash-badge-review' },
+  completed: { label: 'Завершено', cls: 'dash-badge-completed' },
+  expired: { label: 'Прострочено', cls: 'dash-badge-expired' },
 };
 
 type Tab = 'active' | 'completed' | 'all';
-
 const TABS: { key: Tab; label: string }[] = [
   { key: 'active', label: 'Активні' },
   { key: 'completed', label: 'Завершені' },
   { key: 'all', label: 'Усі' },
 ];
-
-const ACTIVE_STATUSES = new Set(['active', 'in_progress', 'review']);
+const ACTIVE_STATUSES = new Set(['active', 'published', 'in_progress', 'review']);
 
 export default function OrdersPage() {
-  const { user } = useAuth();
   const { role } = useRole();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [tab, setTab] = useState<Tab>('active');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchAuth<Task[]>('/tasks/my_tasks/')
@@ -56,83 +47,108 @@ export default function OrdersPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = tasks.filter((t) => {
-    if (tab === 'active') return ACTIVE_STATUSES.has(t.status);
-    if (tab === 'completed') return t.status === 'completed' || t.status === 'expired';
-    return true;
-  });
+  const filtered = tasks
+    .filter(t => {
+      if (tab === 'active') return ACTIVE_STATUSES.has(t.status);
+      if (tab === 'completed') return t.status === 'completed' || t.status === 'expired';
+      return true;
+    })
+    .filter(t => !search || t.subject?.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <h1 className="text-2xl font-bold text-gray-900">Мої замовлення</h1>
+    <div className="space-y-6 animate-slide-up">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="text-2xl font-bold text-[var(--dash-text)]">Мої замовлення</h1>
         {role !== 'executor' && (
-          <Link
-            href="/dashboard/orders/new"
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          >
+          <Link href="/dashboard/orders/new" className="dash-btn-primary">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             Нове замовлення
           </Link>
         )}
       </div>
 
-      <div className="flex gap-1 bg-gray-100 rounded-lg p-1 w-fit">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-              tab === t.key
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+        <div className="flex gap-1 bg-[var(--dash-accent-bg)] rounded-xl p-1">
+          {TABS.map(t => (
+            <button key={t.key} onClick={() => setTab(t.key)}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                tab === t.key
+                  ? 'bg-white text-[var(--dash-text)] shadow-sm'
+                  : 'text-[var(--dash-text-muted)] hover:text-[var(--dash-text)]'
+              }`}>
+              {t.label}
+              {t.key === 'active' && (
+                <span className="ml-1.5 text-xs opacity-60">
+                  {tasks.filter(tt => ACTIVE_STATUSES.has(tt.status)).length}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+        <div className="relative sm:ml-auto">
+          <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--dash-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+          <input type="text" placeholder="Пошук..." value={search} onChange={e => setSearch(e.target.value)}
+            className="dash-input pl-9 w-full sm:w-64" />
+        </div>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-600 border-t-transparent" />
+          <div className="w-8 h-8 border-3 border-[var(--dash-accent)] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : error ? (
-        <div className="rounded-lg bg-red-50 border border-red-200 p-4 text-red-700 text-sm">
-          {error}
-        </div>
+        <div className="dash-card p-5 border-red-200 bg-red-50 text-red-700 text-sm">{error}</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-gray-500">Замовлень не знайдено.</p>
+        <div className="dash-card p-12 text-center">
+          <p className="text-[var(--dash-text-muted)] mb-1">Замовлень не знайдено</p>
+          <p className="text-[var(--dash-text-muted)] text-sm opacity-60">
+            {tab === 'active' ? 'Немає активних замовлень' : 'Спробуйте змінити фільтр'}
+          </p>
         </div>
       ) : (
-        <div className="rounded-xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">
-          {filtered.map((task) => (
-            <Link
-              key={task.id}
-              href={`/dashboard/orders/${task.id}`}
-              className="flex items-center justify-between gap-4 px-4 py-4 hover:bg-gray-50 transition-colors"
-            >
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-gray-900 truncate">{task.subject}</p>
-                <div className="flex items-center gap-3 mt-1">
-                  {task.deadline && (
-                    <span className="text-xs text-gray-500">
-                      до {new Date(task.deadline).toLocaleDateString('uk-UA')}
-                    </span>
-                  )}
-                  {task.price && (
-                    <span className="text-xs text-gray-500">{task.price} грн</span>
-                  )}
-                </div>
-              </div>
-              <span className={`text-xs px-2.5 py-1 rounded-full font-medium shrink-0 ${STATUS_COLORS[task.status] || 'bg-gray-100 text-gray-600'}`}>
-                {STATUS_LABELS[task.status] || task.status}
-              </span>
-            </Link>
-          ))}
+        <div className="dash-card overflow-hidden">
+          <table className="dash-table">
+            <thead>
+              <tr>
+                <th>Замовлення</th>
+                <th className="hidden sm:table-cell">Дедлайн</th>
+                <th className="hidden md:table-cell">Виконавець</th>
+                <th>Бюджет</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(task => {
+                const st = STATUS_MAP[task.status] || { label: task.status, cls: 'dash-badge-completed' };
+                return (
+                  <tr key={task.id} className="cursor-pointer" onClick={() => window.location.href = `/dashboard/orders/${task.id}`}>
+                    <td>
+                      <div>
+                        <Link href={`/dashboard/orders/${task.id}`} className="font-medium text-[var(--dash-text)] hover:text-[var(--dash-accent)] transition-colors">
+                          {task.subject || `Замовлення #${task.id}`}
+                        </Link>
+                        <p className="text-xs text-[var(--dash-text-muted)] mt-0.5">
+                          #{task.id} · {new Date(task.date_add).toLocaleDateString('uk-UA')}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="hidden sm:table-cell text-sm text-[var(--dash-text-muted)]">
+                      {task.deadline ? new Date(task.deadline).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }) : '—'}
+                    </td>
+                    <td className="hidden md:table-cell text-sm text-[var(--dash-text-muted)]">
+                      {task.executor_name || <span className="opacity-40">Не обрано</span>}
+                    </td>
+                    <td className="font-semibold text-sm">{task.price ? `${task.price} ₴` : '—'}</td>
+                    <td><span className={`dash-badge ${st.cls}`}>{st.label}</span></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { fetchAuth, buildWsUrl, getAccessToken } from '@/lib/auth';
 import { useAuth } from '@/providers/AuthProvider';
 
@@ -40,7 +40,6 @@ export function Chat({ taskId, className = '' }: ChatProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  // Load initial messages via REST API
   useEffect(() => {
     setLoading(true);
     fetchAuth<{ results: Message[]; has_more: boolean }>(`/chats/${taskId}/messages/`)
@@ -53,7 +52,6 @@ export function Chat({ taskId, className = '' }: ChatProps) {
       .finally(() => setLoading(false));
   }, [taskId, scrollToBottom]);
 
-  // WebSocket connection
   useEffect(() => {
     const url = buildWsUrl(`/chat/${taskId}/`);
     const ws = new WebSocket(url);
@@ -64,7 +62,6 @@ export function Chat({ taskId, className = '' }: ChatProps) {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-
       switch (data.type) {
         case 'message.new':
           setMessages(prev => [...prev, data.data]);
@@ -83,16 +80,12 @@ export function Chat({ taskId, className = '' }: ChatProps) {
       }
     };
 
-    return () => {
-      ws.close();
-      wsRef.current = null;
-    };
+    return () => { ws.close(); wsRef.current = null; };
   }, [taskId, user?.id, scrollToBottom]);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
     if (!text || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
-
     setSending(true);
     wsRef.current.send(JSON.stringify({ type: 'message.send', content: text }));
     setInput('');
@@ -102,7 +95,6 @@ export function Chat({ taskId, className = '' }: ChatProps) {
   const sendTyping = useCallback(() => {
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
     wsRef.current.send(JSON.stringify({ type: 'typing.start' }));
-
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     typingTimeoutRef.current = setTimeout(() => {
       wsRef.current?.send(JSON.stringify({ type: 'typing.stop' }));
@@ -112,19 +104,13 @@ export function Chat({ taskId, className = '' }: ChatProps) {
   const loadMore = useCallback(async () => {
     if (!hasMore || loadingMore || messages.length === 0) return;
     setLoadingMore(true);
-
     const firstId = messages[0]?.id;
     try {
-      const data = await fetchAuth<{ results: Message[]; has_more: boolean; next_before_id?: number }>(
-        `/chats/${taskId}/messages/?before_id=${firstId}`
-      );
+      const data = await fetchAuth<{ results: Message[]; has_more: boolean }>(`/chats/${taskId}/messages/?before_id=${firstId}`);
       setMessages(prev => [...data.results, ...prev]);
       setHasMore(data.has_more);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoadingMore(false);
-    }
+    } catch (e) { console.error(e); }
+    finally { setLoadingMore(false); }
   }, [hasMore, loadingMore, messages, taskId]);
 
   const handleFileUpload = useCallback(async (files: FileList) => {
@@ -132,7 +118,6 @@ export function Chat({ taskId, className = '' }: ChatProps) {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('content', file.name);
-
       const token = getAccessToken();
       try {
         await fetch(`/miniapp/api/v1/chats/${taskId}/messages/upload/`, {
@@ -140,86 +125,104 @@ export function Chat({ taskId, className = '' }: ChatProps) {
           headers: { Authorization: `Bearer ${token}` },
           body: formData,
         });
-      } catch (e) {
-        console.error('Upload failed:', e);
-      }
+      } catch (e) { console.error('Upload failed:', e); }
     }
   }, [taskId]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   };
 
   if (loading) {
     return (
       <div className={`flex items-center justify-center py-12 ${className}`}>
-        <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent" />
+        <div className="w-6 h-6 border-2 border-[var(--dash-accent)] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className={`flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden ${className}`}>
+    <div className={`flex flex-col dash-card overflow-hidden ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50/50">
-        <span className="text-sm font-medium text-gray-700">Чат</span>
-        <span className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-gray-300'}`} />
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--dash-border)] bg-[var(--dash-accent-bg)]/30">
+        <div className="flex items-center gap-2">
+          <svg className="w-5 h-5 text-[var(--dash-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+          </svg>
+          <span className="text-sm font-semibold text-[var(--dash-text)]">Чат</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`w-2 h-2 rounded-full ${connected ? 'bg-[var(--dash-success)]' : 'bg-gray-300'}`} />
+          <span className="text-xs text-[var(--dash-text-muted)]">{connected ? 'Онлайн' : 'Офлайн'}</span>
+        </div>
       </div>
 
       {/* Messages */}
-      <div ref={containerRef} className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[300px] max-h-[500px]">
+      <div ref={containerRef} className="flex-1 overflow-y-auto p-4 space-y-2 chat-scroll">
         {hasMore && (
           <button onClick={loadMore} disabled={loadingMore}
-            className="w-full text-center text-xs text-blue-600 hover:underline py-1 disabled:opacity-50"
-          >
-            {loadingMore ? 'Завантаження...' : 'Завантажити попередні'}
+            className="w-full text-center text-xs text-[var(--dash-accent)] hover:underline py-2 disabled:opacity-50">
+            {loadingMore ? 'Завантаження...' : '↑ Завантажити попередні'}
           </button>
         )}
 
         {messages.length === 0 && (
-          <p className="text-center text-gray-400 text-sm py-8">Повідомлень поки немає</p>
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <p className="text-[var(--dash-text-muted)] text-sm">Повідомлень поки немає</p>
+            <p className="text-xs text-[var(--dash-text-muted)] mt-0.5 opacity-60">Напишіть першими</p>
+          </div>
         )}
 
         {messages.map(msg => {
           const isMine = msg.sender_id === user?.id;
           return (
-          <div key={msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${
-              isMine
-                ? 'bg-blue-600 text-white rounded-br-md'
-                : 'bg-gray-100 text-gray-900 rounded-bl-md'
-            }`}>
-              {!isMine && (
-                <p className="text-xs font-medium text-blue-600 mb-0.5">{msg.sender_name}</p>
-              )}
-              <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
-              {msg.file && (
-                <a href={msg.file.file_url} target="_blank" rel="noopener noreferrer"
-                  className={`block text-xs mt-1 underline ${isMine ? 'text-blue-200' : 'text-blue-600'}`}
-                >
-                  {msg.file.file_url.split('/').pop()}
-                </a>
-              )}
-              <div className={`flex items-center gap-1 mt-1 ${isMine ? 'justify-end' : ''}`}>
-                <span className={`text-[10px] ${isMine ? 'text-blue-200' : 'text-gray-400'}`}>
-                  {new Date(msg.created_at).toLocaleTimeString('uk', { hour: '2-digit', minute: '2-digit' })}
-                </span>
-                {isMine && (
-                  <span className="text-[10px] text-blue-200">{msg.is_read ? '\u2713\u2713' : '\u2713'}</span>
+            <div key={msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
+                isMine
+                  ? 'bg-[var(--dash-accent)] text-white rounded-br-lg'
+                  : 'bg-[var(--dash-accent-bg)] text-[var(--dash-text)] rounded-bl-lg'
+              }`}>
+                {!isMine && (
+                  <p className="text-[11px] font-semibold mb-0.5 text-[var(--dash-accent)]">
+                    {msg.sender_name}
+                  </p>
                 )}
+                <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">{msg.content}</p>
+                {msg.file && (
+                  <a href={msg.file.file_url} target="_blank" rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1 text-xs mt-1.5 underline ${isMine ? 'text-white/70' : 'text-[var(--dash-accent)]'}`}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                    </svg>
+                    {msg.file.file_url.split('/').pop()}
+                  </a>
+                )}
+                <div className={`flex items-center gap-1.5 mt-1 ${isMine ? 'justify-end' : ''}`}>
+                  <span className={`text-[10px] ${isMine ? 'text-white/60' : 'text-[var(--dash-text-muted)]'}`}>
+                    {new Date(msg.created_at).toLocaleTimeString('uk', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  {isMine && (
+                    <span className={`text-[10px] ${msg.is_read ? 'text-white/80' : 'text-white/40'}`}>
+                      {msg.is_read ? '✓✓' : '✓'}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
           );
         })}
 
         {typing && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-2">
-              <p className="text-xs text-gray-500 italic">{typing} друкує...</p>
+            <div className="bg-[var(--dash-accent-bg)] rounded-2xl rounded-bl-lg px-4 py-2.5">
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-[var(--dash-text-muted)]">{typing}</span>
+                <span className="flex gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--dash-text-muted)] animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--dash-text-muted)] animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--dash-text-muted)] animate-bounce" style={{ animationDelay: '300ms' }} />
+                </span>
+              </div>
             </div>
           </div>
         )}
@@ -228,36 +231,24 @@ export function Chat({ taskId, className = '' }: ChatProps) {
       </div>
 
       {/* Input */}
-      <div className="border-t border-gray-200 p-3">
+      <div className="border-t border-[var(--dash-border)] p-3 bg-white">
         <div className="flex items-end gap-2">
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="shrink-0 p-2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
+          <button onClick={() => fileInputRef.current?.click()}
+            className="shrink-0 p-2.5 text-[var(--dash-text-muted)] hover:text-[var(--dash-accent)] hover:bg-[var(--dash-accent-bg)] rounded-xl transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
             </svg>
           </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            className="hidden"
-            onChange={(e) => e.target.files && handleFileUpload(e.target.files)}
-          />
-          <textarea
-            value={input}
+          <input ref={fileInputRef} type="file" multiple className="hidden"
+            onChange={(e) => e.target.files && handleFileUpload(e.target.files)} />
+          <textarea value={input}
             onChange={e => { setInput(e.target.value); sendTyping(); }}
             onKeyDown={handleKeyDown}
             placeholder="Написати повідомлення..."
             rows={1}
-            className="flex-1 resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-          <button
-            onClick={sendMessage}
-            disabled={!input.trim() || sending}
-            className="shrink-0 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-          >
+            className="flex-1 resize-none rounded-xl border border-[var(--dash-border)] px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--dash-accent)]/20 focus:border-[var(--dash-accent)] transition-all" />
+          <button onClick={sendMessage} disabled={!input.trim() || sending}
+            className="shrink-0 p-2.5 bg-[var(--dash-accent)] text-white rounded-xl hover:bg-[var(--dash-accent-hover)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
             </svg>
