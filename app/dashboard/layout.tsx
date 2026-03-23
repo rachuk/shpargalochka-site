@@ -142,19 +142,17 @@ function DashboardShell({ children }: { children: ReactNode }) {
   return (
     <RoleContext.Provider value={{ role, toggle: toggleRole }}>
     <div className="min-h-screen bg-[var(--dash-bg)] flex flex-col">
-      {/* === HEADER === */}
-      <header className="dash-header">
-        <div className="dash-topbar">
+      {/* === HEADER (Author24-style) === */}
+      <header className="bg-white border-b border-[var(--dash-border)] sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto flex items-center h-14 px-4 md:px-6 gap-2">
           {/* Logo */}
-          <Link href="/dashboard" className="flex items-center gap-2.5 text-[var(--dash-text)] no-underline shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-[var(--dash-accent)] flex items-center justify-center text-white font-bold text-sm">
-              Ш
-            </div>
-            <span className="font-bold text-[15px] tracking-tight hidden sm:inline">Шпаргалочка</span>
+          <Link href="/dashboard" className="flex items-center gap-2 text-[var(--dash-text)] no-underline shrink-0 mr-2">
+            <div className="w-8 h-8 rounded-lg bg-[var(--dash-accent)] flex items-center justify-center text-white font-bold text-sm">Ш</div>
+            <span className="font-bold text-base tracking-tight hidden sm:inline">Шпаргалочка</span>
           </Link>
 
-          {/* Desktop nav tabs inline in header */}
-          <nav className="hidden md:flex items-center gap-1 ml-6">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-0.5 ml-2">
             {navItems.map(item => {
               const isActive = item.exact
                 ? pathname === item.href
@@ -163,10 +161,10 @@ function DashboardShell({ children }: { children: ReactNode }) {
                   : pathname.startsWith(item.href);
               return (
                 <Link key={item.href} href={item.href}
-                  className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors whitespace-nowrap ${
                     isActive
-                      ? 'bg-[var(--dash-accent-bg)] text-[var(--dash-accent)]'
-                      : 'text-[var(--dash-text-muted)] hover:text-[var(--dash-text)] hover:bg-gray-50'
+                      ? 'bg-[var(--dash-accent)] text-white'
+                      : 'text-[var(--dash-text-muted)] hover:text-[var(--dash-text)] hover:bg-gray-100'
                   }`}>
                   {item.label}
                 </Link>
@@ -176,54 +174,40 @@ function DashboardShell({ children }: { children: ReactNode }) {
 
           <div className="flex-1" />
 
-          {/* Create task button */}
+          {/* Create task CTA */}
           {!isExecutorView && (
-            <Link href="/dashboard/orders/new" className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] text-white text-sm font-semibold transition-colors shadow-sm">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
+            <Link href="/dashboard/orders/new" className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] text-white text-[13px] font-semibold transition-colors shadow-sm">
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
               Створити завдання
             </Link>
           )}
 
-          {/* Messenger link */}
-          <Link href="/dashboard/chats" className="hidden md:flex relative p-2 rounded-lg hover:bg-gray-50 text-[var(--dash-text-muted)] hover:text-[var(--dash-text)] transition-colors">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-            </svg>
+          {/* Chat icon */}
+          <Link href="/dashboard/chats" className="hidden md:flex relative p-2 rounded-full hover:bg-gray-100 text-[var(--dash-text-muted)] transition-colors">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[9px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
-                {unreadCount > 99 ? '99+' : unreadCount}
-              </span>
+              <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[9px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">{unreadCount > 99 ? '99+' : unreadCount}</span>
             )}
           </Link>
 
           {/* Notifications bell */}
           <div className="relative hidden md:block" ref={notifRef}>
-            <button
-              onClick={() => setNotifOpen(v => !v)}
-              className="relative p-2 rounded-lg hover:bg-gray-50 text-[var(--dash-text-muted)] hover:text-[var(--dash-text)] transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-              </svg>
-              {notifications.length > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
-              )}
+            <button onClick={() => setNotifOpen(v => !v)} className="relative p-2 rounded-full hover:bg-gray-100 text-[var(--dash-text-muted)] transition-colors">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+              {notifications.length > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />}
             </button>
             {notifOpen && (
-              <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-[var(--dash-border)] shadow-xl z-50 animate-slide-up overflow-hidden">
-                <div className="px-4 py-3 border-b border-[var(--dash-border)]">
+              <div className="absolute right-0 top-full mt-1 w-80 bg-white rounded-2xl border border-[var(--dash-border)] shadow-2xl z-50 animate-slide-up overflow-hidden">
+                <div className="px-4 py-3 border-b border-[var(--dash-border)] flex items-center justify-between">
                   <h3 className="text-sm font-bold text-[var(--dash-text)]">Сповіщення</h3>
+                  {notifications.length > 0 && <span className="text-[10px] text-[var(--dash-text-muted)]">{notifications.length}</span>}
                 </div>
                 {notifications.length === 0 ? (
-                  <div className="px-4 py-8 text-center text-sm text-[var(--dash-text-muted)]">
-                    Нових сповіщень немає
-                  </div>
+                  <div className="px-4 py-8 text-center text-sm text-[var(--dash-text-muted)]">Нових сповіщень немає</div>
                 ) : (
-                  <div className="max-h-72 overflow-y-auto">
+                  <div className="max-h-72 overflow-y-auto divide-y divide-[var(--dash-border)]">
                     {notifications.map(n => (
-                      <div key={n.id} className="px-4 py-3 border-b border-[var(--dash-border)] last:border-0 hover:bg-[var(--dash-accent-bg)] transition-colors cursor-pointer">
+                      <div key={n.id} className="px-4 py-3 hover:bg-[var(--dash-accent-bg)] transition-colors cursor-pointer">
                         <p className="text-sm text-[var(--dash-text)] line-clamp-2">{n.text}</p>
                         {n.time && <p className="text-[10px] text-[var(--dash-text-muted)] mt-1">{n.time}</p>}
                       </div>
@@ -236,58 +220,41 @@ function DashboardShell({ children }: { children: ReactNode }) {
 
           {/* Balance */}
           {isExecutorView && user.balance && Number(user.balance) > 0 && (
-            <div className="hidden sm:flex items-center gap-1.5 text-sm text-[var(--dash-text-muted)]">
+            <div className="hidden sm:flex items-center gap-1 text-sm">
               <span className="font-semibold text-[var(--dash-text)]">{user.balance} ₴</span>
             </div>
           )}
 
           {/* Avatar dropdown */}
           <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setDropdownOpen(v => !v)}
-              className="flex items-center gap-2 rounded-full hover:bg-gray-50 p-1 pr-2 transition-colors"
-            >
+            <button onClick={() => setDropdownOpen(v => !v)} className="flex items-center gap-1.5 rounded-full hover:bg-gray-100 p-1 pr-1.5 transition-colors">
               {user.avatar ? (
-                <img src={user.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
+                <img src={user.avatar} alt="" className="w-8 h-8 rounded-full object-cover ring-2 ring-[var(--dash-border)]" />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-[var(--dash-accent)] flex items-center justify-center text-white font-semibold text-xs">
-                  {initials}
-                </div>
+                <div className="w-8 h-8 rounded-full bg-[var(--dash-accent)] flex items-center justify-center text-white font-semibold text-xs">{initials}</div>
               )}
-              <svg className={`w-4 h-4 text-[var(--dash-text-muted)] transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
+              <svg className={`w-3.5 h-3.5 text-[var(--dash-text-muted)] transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl border border-[var(--dash-border)] shadow-lg py-2 z-50 animate-slide-up">
-                <div className="px-4 py-2.5 border-b border-[var(--dash-border)]">
+              <div className="absolute right-0 top-full mt-1 w-56 bg-white rounded-2xl border border-[var(--dash-border)] shadow-2xl py-1 z-50 animate-slide-up">
+                <div className="px-4 py-3 border-b border-[var(--dash-border)]">
                   <p className="text-sm font-semibold text-[var(--dash-text)] truncate">{user.name}</p>
-                  <p className="text-xs text-[var(--dash-text-muted)]">
-                    {isExecutorView ? 'Виконавець' : 'Замовник'}
-                  </p>
+                  <p className="text-[11px] text-[var(--dash-text-muted)]">{isExecutorView ? 'Виконавець' : 'Замовник'}</p>
                 </div>
                 <Link href="/dashboard/profile" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[var(--dash-text)] hover:bg-[var(--dash-accent-bg)] transition-colors">
-                  <svg className="w-4 h-4 text-[var(--dash-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                  </svg>
+                  <svg className="w-4 h-4 text-[var(--dash-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                   Профіль
                 </Link>
                 {canSwitchRole && (
-                  <button onClick={() => { toggleRole(); setDropdownOpen(false); }}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-[var(--dash-text)] hover:bg-[var(--dash-accent-bg)] transition-colors">
-                    <svg className="w-4 h-4 text-[var(--dash-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-                    </svg>
+                  <button onClick={() => { toggleRole(); setDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-[var(--dash-text)] hover:bg-[var(--dash-accent-bg)] transition-colors">
+                    <svg className="w-4 h-4 text-[var(--dash-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" /></svg>
                     {isExecutorView ? 'Режим замовника' : 'Режим виконавця'}
                   </button>
                 )}
                 <div className="border-t border-[var(--dash-border)] mt-1 pt-1">
-                  <button onClick={logout}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                    </svg>
+                  <button onClick={logout} className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
                     Вийти
                   </button>
                 </div>

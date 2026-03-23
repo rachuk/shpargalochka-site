@@ -75,10 +75,10 @@ export default function OrdersPage() {
       </div>
 
       {/* Tab filters */}
-      <div className="flex gap-1 mb-5 overflow-x-auto pb-1 scrollbar-hide">
+      <div className="flex gap-2 mb-5 overflow-x-auto pb-1 scrollbar-hide">
         {TABS.map(t => (
           <button key={t.key} onClick={() => setTab(t.key)}
-            className={`shrink-0 px-4 py-2 text-sm font-medium rounded-xl transition-all ${
+            className={`shrink-0 px-4 py-2 text-sm font-medium rounded-full transition-all ${
               tab === t.key
                 ? 'bg-[var(--dash-accent)] text-white shadow-sm'
                 : 'bg-white border border-[var(--dash-border)] text-[var(--dash-text-muted)] hover:text-[var(--dash-text)] hover:border-gray-300'
@@ -118,40 +118,50 @@ export default function OrdersPage() {
               {filtered.map(task => (
                 <div key={task.id}
                   onClick={() => router.push(`/dashboard/orders/${task.id}`)}
-                  className="bg-white rounded-2xl border border-[var(--dash-border)] p-4 hover:shadow-md hover:border-[var(--dash-accent-light)] transition-all cursor-pointer">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 mb-1.5">
+                  className="bg-white rounded-2xl border border-[var(--dash-border)] p-4 md:p-5 hover:shadow-md hover:border-[var(--dash-accent-light)] transition-all cursor-pointer group">
+                  <div className="flex items-start gap-4">
+                    {/* Left indicator */}
+                    <div className={`w-1 self-stretch rounded-full shrink-0 ${
+                      task.status === 'in_progress' ? 'bg-blue-500' :
+                      task.status === 'review' || task.status === 'guarantee' ? 'bg-orange-400' :
+                      task.status === 'completed' || task.status === 'refunded' ? 'bg-green-500' :
+                      task.status === 'cancelled' || task.status === 'expired' ? 'bg-red-400' :
+                      'bg-[var(--dash-accent)]'
+                    }`} />
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                         <TaskStatusBadge status={task.status} />
-                        {task.work_type && (
-                          <span className="text-[10px] text-[var(--dash-text-muted)]">{task.work_type}</span>
-                        )}
+                        {task.work_type && <span className="text-[10px] text-[var(--dash-text-muted)] bg-gray-100 px-2 py-0.5 rounded-full">{task.work_type}</span>}
                         <span className="text-[10px] text-[var(--dash-text-muted)]">#{task.id}</span>
                       </div>
-                      <h3 className="text-sm font-semibold text-[var(--dash-text)] line-clamp-1 hover:text-[var(--dash-accent)] transition-colors">
+                      <h3 className="text-sm font-bold text-[var(--dash-text)] line-clamp-1 group-hover:text-[var(--dash-accent)] transition-colors">
                         {task.subject || `Завдання #${task.id}`}
                       </h3>
+                      <div className="flex items-center gap-4 mt-2 text-xs text-[var(--dash-text-muted)]">
+                        {task.deadline && (
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                            до {new Date(task.deadline).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}
+                          </span>
+                        )}
+                        {task.executor_name && (
+                          <span className="flex items-center gap-1">
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" /></svg>
+                            {task.executor_name}
+                          </span>
+                        )}
+                        {task.bids_count != null && task.bids_count > 0 && (
+                          <span className="text-[var(--dash-accent)] font-medium">{task.bids_count} відгуків</span>
+                        )}
+                      </div>
                     </div>
+                    {/* Price */}
                     {task.price && (
                       <span className="text-base font-bold text-[var(--dash-text)] shrink-0">{task.price} ₴</span>
                     )}
-                  </div>
-                  <div className="flex items-center gap-4 mt-3 text-xs text-[var(--dash-text-muted)]">
-                    {task.deadline && (
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
-                        до {new Date(task.deadline).toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}
-                      </span>
-                    )}
-                    {task.executor_name && (
-                      <span className="flex items-center gap-1">
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" /></svg>
-                        {task.executor_name}
-                      </span>
-                    )}
-                    {task.bids_count != null && task.bids_count > 0 && (
-                      <span className="text-[var(--dash-accent)] font-medium">{task.bids_count} відгуків</span>
-                    )}
+                    {/* Arrow */}
+                    <svg className="w-5 h-5 text-[var(--dash-text-muted)] group-hover:text-[var(--dash-accent)] transition-colors shrink-0 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                   </div>
                 </div>
               ))}

@@ -94,14 +94,14 @@ export default function ExpertsPage() {
           {/* Filters */}
           <div className="flex gap-2 mb-5 overflow-x-auto pb-1 scrollbar-hide">
             <button onClick={() => { setWorkType(''); setPage(1); }}
-              className={`shrink-0 px-4 py-2 text-sm font-medium rounded-xl transition-all ${
+              className={`shrink-0 px-4 py-2 text-sm font-medium rounded-full transition-all ${
                 !workType ? 'bg-[var(--dash-accent)] text-white' : 'bg-white border border-[var(--dash-border)] text-[var(--dash-text-muted)] hover:text-[var(--dash-text)]'
               }`}>
               Усі
             </button>
             {WORK_TYPES.map(wt => (
               <button key={wt} onClick={() => { setWorkType(wt); setPage(1); }}
-                className={`shrink-0 px-4 py-2 text-sm font-medium rounded-xl transition-all ${
+                className={`shrink-0 px-4 py-2 text-sm font-medium rounded-full transition-all ${
                   workType === wt ? 'bg-[var(--dash-accent)] text-white' : 'bg-white border border-[var(--dash-border)] text-[var(--dash-text-muted)] hover:text-[var(--dash-text)]'
                 }`}>
                 {wt}

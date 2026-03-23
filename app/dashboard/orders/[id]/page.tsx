@@ -220,21 +220,22 @@ export default function OrderDetailPage() {
           <p className="text-sm font-medium text-[var(--dash-text)] mb-3">Робота здана на перевірку</p>
           <div className="flex flex-wrap gap-3">
             <button onClick={() => handleAction('accept_task')} disabled={actionLoading}
-              className="px-5 py-2.5 rounded-xl bg-[var(--dash-success)] hover:bg-emerald-600 text-white font-semibold text-sm transition-colors">
+              className="px-5 py-2.5 rounded-full bg-[var(--dash-success)] hover:bg-emerald-600 text-white font-semibold text-sm transition-colors">
               Прийняти роботу
             </button>
             <button onClick={() => handleAction('revision_task')} disabled={actionLoading}
-              className="px-5 py-2.5 rounded-xl border border-amber-200 text-amber-700 hover:bg-amber-50 font-semibold text-sm transition-colors">
+              className="px-5 py-2.5 rounded-full border border-amber-200 text-amber-700 hover:bg-amber-50 font-semibold text-sm transition-colors">
               На доопрацювання
             </button>
           </div>
+          <p className="text-xs text-[var(--dash-text-muted)] mt-3">Якщо потрібні правки — експерт доопрацює безкоштовно</p>
         </div>
       )}
 
       {isTaskExecutor && task.status === 'in_progress' && (
         <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-5 mb-5">
           <button onClick={() => handleAction('finish_task')} disabled={actionLoading}
-            className="px-5 py-2.5 rounded-xl bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] text-white font-semibold text-sm transition-colors">
+            className="px-5 py-2.5 rounded-full bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] text-white font-semibold text-sm transition-colors">
             Здати роботу
           </button>
         </div>
@@ -253,10 +254,17 @@ export default function OrderDetailPage() {
               </div>
 
               {bids.length === 0 ? (
-                <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-10 text-center">
-                  <div className="text-4xl mb-3">⏳</div>
-                  <h3 className="font-bold text-[var(--dash-text)] mb-1">Очікуємо відгуків</h3>
-                  <p className="text-sm text-[var(--dash-text-muted)]">Експерти побачать ваше завдання на біржі та запропонують ціну</p>
+                <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-8 text-center">
+                  <div className="w-16 h-16 rounded-full bg-[var(--dash-accent-bg)] flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-[var(--dash-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  </div>
+                  <h3 className="font-bold text-[var(--dash-text)] mb-1">Очікуємо відгуків від експертів</h3>
+                  <p className="text-sm text-[var(--dash-text-muted)] mb-4 max-w-sm mx-auto">Зазвичай перші відгуки надходять протягом 5 хвилин</p>
+                  <div className="flex justify-center gap-4 text-xs text-[var(--dash-text-muted)]">
+                    <span className="flex items-center gap-1"><span className="text-base">🛡️</span> Безпечна угода</span>
+                    <span className="flex items-center gap-1"><span className="text-base">✅</span> Гарантія якості</span>
+                    <span className="flex items-center gap-1"><span className="text-base">♻️</span> Безкоштовні правки</span>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-3">

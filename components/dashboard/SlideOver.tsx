@@ -52,20 +52,17 @@ export default function SlideOver({ open, onClose, title, width = 'max-w-xl', ch
 
   return (
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
 
       {/* Desktop: right panel */}
-      <div className={`hidden md:flex absolute right-0 top-0 h-full w-full ${width} flex-col bg-white shadow-2xl
-        animate-[slideInRight_0.3s_ease]`}>
+      <div className={`hidden md:flex absolute right-0 top-0 h-full w-full ${width} flex-col bg-white shadow-2xl animate-[slideInRight_0.25s_ease]`}>
         {title && (
           <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--dash-border)] shrink-0">
-            <h2 className="text-lg font-bold text-[var(--dash-text)]">{title}</h2>
-            <div className="flex items-center gap-3">
+            <h2 className="text-base font-bold text-[var(--dash-text)]">{title}</h2>
+            <div className="flex items-center gap-2">
               {headerRight}
-              <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 text-[var(--dash-text-muted)] transition-colors">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+              <button onClick={onClose} className="p-1.5 rounded-full hover:bg-gray-100 text-[var(--dash-text-muted)] transition-colors">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
           </div>
@@ -76,8 +73,7 @@ export default function SlideOver({ open, onClose, title, width = 'max-w-xl', ch
       {/* Mobile: bottom sheet */}
       <div
         ref={panelRef}
-        className="md:hidden absolute bottom-0 left-0 right-0 max-h-[92vh] bg-white rounded-t-2xl shadow-2xl flex flex-col
-          animate-[slideInUp_0.3s_ease]"
+        className="md:hidden absolute bottom-0 left-0 right-0 max-h-[92vh] bg-white rounded-t-3xl shadow-2xl flex flex-col animate-[slideInUp_0.25s_ease]"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -91,9 +87,7 @@ export default function SlideOver({ open, onClose, title, width = 'max-w-xl', ch
             <div className="flex items-center gap-2">
               {headerRight}
               <button onClick={onClose} className="p-1 text-[var(--dash-text-muted)]">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
           </div>
