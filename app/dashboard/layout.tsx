@@ -121,7 +121,7 @@ function DashboardShell({ children }: { children: ReactNode }) {
   const canSwitchRole = user.is_executor;
   const navItems = isExecutorView ? NAV_EXECUTOR : NAV_CUSTOMER;
   const mobileNavItems = isExecutorView ? MOBILE_NAV_EXECUTOR : MOBILE_NAV_CUSTOMER;
-  const initials = (user.name || 'U').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  const initials = (user.name || 'U').split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
     <RoleContext.Provider value={{ role, toggle: toggleRole }}>

@@ -8,7 +8,7 @@ interface ChatItem {
   id: number;
   task_id: number;
   task_subject: string;
-  client: { id: number; name: string; avatar?: string };
+  client: { id: number; name: string; avatar?: string } | null;
   executor: { id: number; name: string; avatar?: string } | null;
   last_message: { content: string; created_at: string; sender_id: number } | null;
   unread_count: number;
@@ -123,11 +123,13 @@ export default function MessengerPage() {
     ? chats.filter(c => c.task_subject?.toLowerCase().includes(search.toLowerCase()))
     : chats;
 
-  function getOtherUser(chat: ChatItem) {
-    if (!user) return { name: '?', avatar: null as string | null | undefined };
-    if (chat.executor && chat.executor.id !== user.id) return chat.executor;
-    if (chat.client.id !== user.id) return chat.client;
-    return chat.executor || chat.client;
+  function getOtherUser(chat: ChatItem): { name: string; avatar?: string | null } {
+    if (!user) return { name: '?' };
+    if (chat.executor && chat.executor.id !== user.id) return { name: chat.executor.name || '?', avatar: chat.executor.avatar };
+    if (chat.client && chat.client.id !== user.id) return { name: chat.client.name || '?', avatar: chat.client.avatar };
+    if (chat.executor) return { name: chat.executor.name || '?', avatar: chat.executor.avatar };
+    if (chat.client) return { name: chat.client.name || '?', avatar: chat.client.avatar };
+    return { name: '?' };
   }
 
   if (loading) {
@@ -270,12 +272,12 @@ export default function MessengerPage() {
                           )}
                           <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">{msg.content}</p>
                           {msg.file && (
-                            <a href={msg.file.file_url} target="_blank" rel="noopener noreferrer"
+                            <a href={msg.file.file_url || '#'} target="_blank" rel="noopener noreferrer"
                               className={`inline-flex items-center gap-1 text-xs mt-1.5 underline ${isMine ? 'text-white/70' : 'text-[var(--dash-accent)]'}`}>
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
                               </svg>
-                              {msg.file.file_url.split('/').pop()}
+                              {(msg.file.file_url || '').split('/').pop() || 'файл'}
                             </a>
                           )}
                           <div className={`flex items-center gap-1.5 mt-1 ${isMine ? 'justify-end' : ''}`}>

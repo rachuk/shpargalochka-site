@@ -126,7 +126,7 @@ export default function DashboardPage() {
                 <img src={user.avatar} alt="" className="w-20 h-20 rounded-full object-cover mx-auto mb-3" />
               ) : (
                 <div className="w-20 h-20 rounded-full bg-[var(--dash-accent)] flex items-center justify-center text-white font-bold text-2xl mx-auto mb-3">
-                  {(user?.name || 'U').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()}
+                  {(user?.name || 'U').split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase()}
                 </div>
               )}
               <h3 className="font-bold text-[var(--dash-text)] text-base">{user?.name}</h3>

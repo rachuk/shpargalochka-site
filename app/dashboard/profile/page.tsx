@@ -56,7 +56,7 @@ export default function ProfilePage() {
     return <div className="dash-card p-5 border-red-200 bg-red-50 text-red-700 text-sm">Не вдалося завантажити дані користувача.</div>;
   }
 
-  const initials = (user.name || 'U').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  const initials = (user.name || 'U').split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
     <div className="max-w-2xl animate-slide-up">
