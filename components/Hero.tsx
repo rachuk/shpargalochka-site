@@ -2,10 +2,10 @@ interface HeroProps { onApply: () => void; }
 
 export function Hero({ onApply }: HeroProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-violet-900 via-violet-800 to-indigo-900 text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-teal-900 via-teal-800 to-indigo-900 text-white">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-amber-400 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 right-20 w-96 h-96 bg-violet-400 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-20 w-96 h-96 bg-teal-400 rounded-full blur-3xl" />
       </div>
       <div className="relative max-w-5xl mx-auto px-4 py-24 md:py-32">
         <div className="text-center">
@@ -16,7 +16,7 @@ export function Hero({ onApply }: HeroProps) {
             Заробляйте на своїх
             <span className="block text-amber-400">знаннях та навичках</span>
           </h1>
-          <p className="text-lg md:text-xl text-violet-200 max-w-2xl mx-auto mb-10">
+          <p className="text-lg md:text-xl text-teal-200 max-w-2xl mx-auto mb-10">
             Приєднуйтесь до команди авторів Шпаргалочки. Обирайте замовлення, працюйте
             у зручний час, отримуйте гроші швидко та без зайвих проблем.
           </p>

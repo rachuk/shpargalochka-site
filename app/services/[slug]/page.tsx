@@ -116,7 +116,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      <Link href="/services" className="text-sm text-violet-700 hover:underline mb-6 inline-block">&larr; Усі послуги</Link>
+      <Link href="/services" className="text-sm text-teal-700 hover:underline mb-6 inline-block">&larr; Усі послуги</Link>
       <h1 className="text-3xl font-bold mb-6">{workType.name}: структура, оформлення, поради</h1>
 
       <p className="text-gray-600 text-lg leading-relaxed mb-10">{content.intro}</p>
@@ -135,7 +135,7 @@ export default async function ServiceDetailPage({ params }: Props) {
         <p className="text-gray-600 mb-6">Наші автори мають досвід виконання робіт цього типу. Напишіть у Telegram-бот — підберемо найкращого виконавця.</p>
         <div className="flex flex-col sm:flex-row gap-3">
           <a href={TELEGRAM_BOT} target="_blank" rel="noopener noreferrer"
-            className="inline-block bg-violet-700 hover:bg-violet-800 text-white px-8 py-3 rounded-xl font-semibold transition-colors text-center">
+            className="inline-block bg-teal-700 hover:bg-teal-800 text-white px-8 py-3 rounded-xl font-semibold transition-colors text-center">
             Написати в Telegram
           </a>
         </div>

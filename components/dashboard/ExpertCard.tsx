@@ -40,7 +40,7 @@ export default function ExpertCard({ expert, onSelect, onProfile, actionLabel = 
 
   if (compact) {
     return (
-      <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-3 flex flex-col items-center text-center hover:shadow-md transition-all cursor-pointer" onClick={() => onProfile?.(expert)}>
+      <div className="bg-white rounded-xl border border-[var(--dash-border)] p-3 flex flex-col items-center text-center hover:shadow-md transition-all cursor-pointer" onClick={() => onProfile?.(expert)}>
         <div className="relative mb-2">
           {expert.avatar ? (
             <img src={expert.avatar} alt={name} className="w-14 h-14 rounded-full object-cover" />
@@ -60,7 +60,7 @@ export default function ExpertCard({ expert, onSelect, onProfile, actionLabel = 
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-4 hover:shadow-md transition-all">
+    <div className="bg-white rounded-xl border border-[var(--dash-border)] p-4 hover:shadow-md transition-all">
       {/* Top: avatar + info */}
       <div className="flex gap-3 mb-3">
         <div className="shrink-0 cursor-pointer" onClick={() => onProfile?.(expert)}>

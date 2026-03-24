@@ -61,7 +61,7 @@ export default async function ReviewsPage() {
         <h2 className="text-xl font-bold mb-3">Потрібна допомога з навчальною роботою?</h2>
         <p className="text-gray-500 mb-6">Напишіть у наш Telegram-бот — підберемо автора за рейтингом та відгуками</p>
         <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-          className="inline-block bg-violet-700 hover:bg-violet-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+          className="inline-block bg-teal-700 hover:bg-teal-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
           Написати в Telegram
         </a>
       </div>

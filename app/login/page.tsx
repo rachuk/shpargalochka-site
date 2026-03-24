@@ -61,7 +61,7 @@ function LoginForm() {
   return (
     <div className="min-h-screen bg-[var(--dash-bg)] flex">
       {/* Left decorative panel */}
-      <div className="hidden lg:flex flex-col justify-between w-[480px] bg-gradient-to-br from-[#2d1b69] to-[#1a0f3c] p-10 text-white relative overflow-hidden shrink-0">
+      <div className="hidden lg:flex flex-col justify-between w-[480px] bg-gradient-to-br from-[#134E4A] to-[#0F172A] p-10 text-white relative overflow-hidden shrink-0">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-[var(--dash-accent-light)] blur-3xl" />
           <div className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-[var(--dash-accent)] blur-3xl" />

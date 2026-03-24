@@ -14,11 +14,11 @@ export default function HelpersPage() {
         Каталог авторів з рейтингами, відгуками та цінами доступний через наш Telegram-бот.
       </p>
       <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-        className="inline-block bg-violet-700 hover:bg-violet-800 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors text-lg">
+        className="inline-block bg-teal-700 hover:bg-teal-800 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors text-lg">
         Знайти автора в Telegram
       </a>
       <p className="mt-6 text-sm text-gray-400">
-        Хочете стати автором? <Link href="/authors" className="text-violet-700 hover:underline">Заповніть анкету</Link>
+        Хочете стати автором? <Link href="/authors" className="text-teal-700 hover:underline">Заповніть анкету</Link>
       </p>
     </div>
   );

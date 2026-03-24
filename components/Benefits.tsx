@@ -22,8 +22,8 @@ export function Benefits() {
         <p className="text-gray-500 text-center mb-12 max-w-2xl mx-auto">Ми створили умови, в яких вам зручно працювати і заробляти</p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map(b => (
-            <div key={b.title} className="p-6 rounded-2xl border border-gray-100 hover:border-violet-200 hover:shadow-lg transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center mb-4 group-hover:bg-violet-100 transition-colors">
+            <div key={b.title} className="p-6 rounded-2xl border border-gray-100 hover:border-teal-200 hover:shadow-lg transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
                 <b.Icon />
               </div>
               <h3 className="text-xl font-semibold mb-2">{b.title}</h3>

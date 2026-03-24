@@ -28,12 +28,12 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
-      <div className="bg-violet-50 rounded-2xl p-8 text-center">
+      <div className="bg-teal-50 rounded-2xl p-8 text-center">
         <h2 className="text-xl font-bold mb-3">Готові обрати автора?</h2>
         <p className="text-gray-600 mb-6">Перегляньте профілі авторів або опишіть завдання в Telegram</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer" className="bg-violet-700 hover:bg-violet-800 text-white px-8 py-3 rounded-xl font-semibold transition-colors">Telegram-бот</a>
-          <Link href="/helpers" className="border-2 border-violet-700 text-violet-700 px-8 py-3 rounded-xl font-semibold hover:bg-violet-50 transition-colors">Переглянути авторів</Link>
+          <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer" className="bg-teal-700 hover:bg-teal-800 text-white px-8 py-3 rounded-xl font-semibold transition-colors">Telegram-бот</a>
+          <Link href="/helpers" className="border-2 border-teal-700 text-teal-700 px-8 py-3 rounded-xl font-semibold hover:bg-teal-50 transition-colors">Переглянути авторів</Link>
         </div>
       </div>
     </div>

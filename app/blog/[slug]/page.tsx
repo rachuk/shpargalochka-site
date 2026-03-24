@@ -38,10 +38,10 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <Link href="/blog" className="text-sm text-violet-700 hover:underline mb-6 inline-block">&larr; Усі статті</Link>
+      <Link href="/blog" className="text-sm text-teal-700 hover:underline mb-6 inline-block">&larr; Усі статті</Link>
 
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-xs font-medium text-violet-700 bg-violet-50 px-2 py-0.5 rounded">{post.category}</span>
+        <span className="text-xs font-medium text-teal-700 bg-teal-50 px-2 py-0.5 rounded">{post.category}</span>
         <span className="text-xs text-gray-400">{new Date(post.date).toLocaleDateString('uk-UA', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
       </div>
 
@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: Props) {
         <h2 className="text-xl font-bold mb-3">Потрібна допомога з навчальною роботою?</h2>
         <p className="text-gray-500 mb-6">Напишіть у Telegram-бот — підберемо автора для вашого завдання</p>
         <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-          className="inline-block bg-violet-700 hover:bg-violet-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+          className="inline-block bg-teal-700 hover:bg-teal-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
           Написати в Telegram
         </a>
       </div>

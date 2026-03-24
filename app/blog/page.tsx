@@ -18,9 +18,9 @@ export default function BlogPage() {
       <div className="space-y-6">
         {posts.map(post => (
           <Link key={post.slug} href={`/blog/${post.slug}`}
-            className="block bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-violet-200 transition-all">
+            className="block bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-teal-200 transition-all">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-xs font-medium text-violet-700 bg-violet-50 px-2 py-0.5 rounded">{post.category}</span>
+              <span className="text-xs font-medium text-teal-700 bg-teal-50 px-2 py-0.5 rounded">{post.category}</span>
               <span className="text-xs text-gray-400">{new Date(post.date).toLocaleDateString('uk-UA', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h2>

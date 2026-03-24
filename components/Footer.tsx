@@ -25,7 +25,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div>
           <Link href="/" className="flex items-center gap-2 text-xl font-bold text-white">
-            <span className="w-7 h-7 bg-violet-600 rounded-lg flex items-center justify-center text-white text-xs font-bold">Ш</span>
+            <span className="w-7 h-7 bg-teal-600 rounded-lg flex items-center justify-center text-white text-xs font-bold">Ш</span>
             Шпаргалочка
           </Link>
           <p className="mt-4 text-sm leading-relaxed text-gray-400">

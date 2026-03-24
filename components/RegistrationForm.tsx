@@ -62,13 +62,13 @@ export function RegistrationForm() {
       <h2 className="text-3xl font-bold mb-4">Дякуємо!</h2>
       <p className="text-gray-600 text-lg mb-6">Вашу анкету отримано. Ми зв&#39;яжемося з вами протягом 24 годин.</p>
       <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-        className="inline-block bg-violet-700 hover:bg-violet-800 text-white px-8 py-3 rounded-xl font-semibold transition-colors">
+        className="inline-block bg-teal-700 hover:bg-teal-800 text-white px-8 py-3 rounded-xl font-semibold transition-colors">
         Перейти в Telegram-бот
       </a>
     </div>
   );
 
-  const inputCls = "w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none";
+  const inputCls = "w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none";
   const selectCls = `${inputCls} bg-white`;
 
   return (
@@ -108,7 +108,7 @@ export function RegistrationForm() {
           <div className="flex flex-wrap gap-2">
             {languages.map(l => (
               <button type="button" key={l.id} onClick={() => toggleArrayItem('selected_languages', l.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${form.selected_languages.includes(l.id) ? 'bg-violet-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{l.name}</button>
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${form.selected_languages.includes(l.id) ? 'bg-teal-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{l.name}</button>
             ))}
           </div>
         </fieldset>
@@ -117,7 +117,7 @@ export function RegistrationForm() {
           <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
             {workTypes.map(wt => (
               <button type="button" key={wt.id} onClick={() => toggleArrayItem('selected_work_types', wt.id)}
-                className={`px-3 py-1.5 rounded-full text-sm transition-colors cursor-pointer ${form.selected_work_types.includes(wt.id) ? 'bg-violet-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{wt.name}</button>
+                className={`px-3 py-1.5 rounded-full text-sm transition-colors cursor-pointer ${form.selected_work_types.includes(wt.id) ? 'bg-teal-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{wt.name}</button>
             ))}
           </div>
         </fieldset>
@@ -133,7 +133,7 @@ export function RegistrationForm() {
                   <div className="flex flex-wrap gap-2">
                     {catSubjects.map(s => (
                       <button type="button" key={s.id} onClick={() => toggleArrayItem('selected_subjects', s.id)}
-                        className={`px-3 py-1.5 rounded-full text-sm transition-colors cursor-pointer ${form.selected_subjects.includes(s.id) ? 'bg-violet-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{s.name}</button>
+                        className={`px-3 py-1.5 rounded-full text-sm transition-colors cursor-pointer ${form.selected_subjects.includes(s.id) ? 'bg-teal-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>{s.name}</button>
                     ))}
                   </div>
                 </div>
@@ -148,7 +148,7 @@ export function RegistrationForm() {
         </fieldset>
         {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">{error}</div>}
         <button type="submit" disabled={submitting}
-          className="w-full bg-violet-700 hover:bg-violet-800 disabled:bg-violet-400 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-colors cursor-pointer">
+          className="w-full bg-teal-700 hover:bg-teal-800 disabled:bg-teal-400 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-colors cursor-pointer">
           {submitting ? 'Відправляємо...' : 'Відправити анкету'}
         </button>
       </form>

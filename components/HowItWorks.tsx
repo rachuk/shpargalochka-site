@@ -13,7 +13,7 @@ export function HowItWorks() {
         <div className="space-y-8">
           {steps.map(step => (
             <div key={step.num} className="flex gap-6 items-start">
-              <div className="shrink-0 w-14 h-14 bg-violet-100 text-violet-700 rounded-2xl flex items-center justify-center font-bold text-lg">{step.num}</div>
+              <div className="shrink-0 w-14 h-14 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-bold text-lg">{step.num}</div>
               <div>
                 <h3 className="text-xl font-semibold mb-1">{step.title}</h3>
                 <p className="text-gray-600">{step.desc}</p>

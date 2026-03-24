@@ -7,6 +7,7 @@ import { fetchAuth } from '@/lib/auth';
 import { useAuth } from '@/providers/AuthProvider';
 import { useRole } from './layout';
 import ExpertCard, { type ExpertData } from '@/components/dashboard/ExpertCard';
+import { parseTaskText } from '@/lib/parseTask';
 
 interface Task {
   id: number;
@@ -79,14 +80,14 @@ export default function DashboardPage() {
           <Link href="/dashboard/available" className="text-sm text-[var(--dash-accent)] hover:underline font-medium">Уся біржа →</Link>
         </div>
         {availableTasks.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-10 text-center">
+          <div className="bg-white rounded-xl border border-[var(--dash-border)] p-10 text-center">
             <p className="text-[var(--dash-text-muted)]">Немає доступних замовлень</p>
           </div>
         ) : (
           <div className="space-y-3">
             {[...newOrders, ...fewBids].slice(0, 10).map(t => (
               <Link key={t.id} href={`/dashboard/orders/${t.id}`}
-                className="block bg-white rounded-2xl border border-[var(--dash-border)] p-4 hover:shadow-md hover:border-[var(--dash-accent-light)] transition-all">
+                className="block bg-white rounded-xl border border-[var(--dash-border)] p-4 hover:shadow-md hover:border-[var(--dash-accent-light)] transition-all">
                 <h4 className="text-sm font-semibold text-[var(--dash-text)] line-clamp-1">{t.subject}</h4>
                 <div className="flex items-center gap-3 mt-2 text-xs text-[var(--dash-text-muted)]">
                   {t.price && <span className="font-semibold text-[var(--dash-text)]">{t.price} ₴</span>}
@@ -108,17 +109,17 @@ export default function DashboardPage() {
     <div className="space-y-10 animate-slide-up">
       {/* Hero — white card with textarea, like Author24 */}
       <section className="text-center">
-        <h1 className="text-2xl md:text-3xl font-bold text-[var(--dash-text)] mb-6">
-          <span className="text-2xl md:text-3xl">👋</span> Створи завдання
+        <h1 className="text-3xl md:text-4xl font-bold text-[var(--dash-text)] mb-6">
+          Створи завдання
         </h1>
-        <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-5 md:p-6 max-w-2xl mx-auto shadow-sm">
+        <div className="bg-white rounded-xl border border-[var(--dash-border)] p-5 md:p-6 max-w-2xl mx-auto shadow-sm">
           <textarea
             value={heroText}
             onChange={e => setHeroText(e.target.value)}
-            placeholder="Розкажи детальніше про своє завдання"
+            placeholder="Опиши завдання, наприклад: курсова з економіки..."
             rows={3}
             maxLength={1000}
-            className="w-full border border-[var(--dash-border)] rounded-xl p-4 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--dash-accent)]/20 focus:border-[var(--dash-accent)] placeholder:text-gray-400"
+            className="w-full border border-[var(--dash-border)] rounded-lg p-4 text-base resize-none focus:outline-none focus:ring-2 focus:ring-[var(--dash-accent)]/20 focus:border-[var(--dash-accent)] placeholder:text-gray-400"
           />
           <div className="flex items-center justify-between mt-3">
             <span className="text-[10px] text-[var(--dash-text-muted)]">Максимум 1 000 символів</span>
@@ -132,8 +133,16 @@ export default function DashboardPage() {
               </button>
               <button
                 onClick={() => {
-                  const params = heroText.trim() ? `?desc=${encodeURIComponent(heroText.trim())}` : '';
-                  router.push(`/dashboard/orders/new${params}`);
+                  const text = heroText.trim();
+                  if (!text) { router.push('/dashboard/orders/new'); return; }
+                  const parsed = parseTaskText(text);
+                  const p = new URLSearchParams();
+                  if (parsed.subject) p.set('subject', parsed.subject);
+                  if (parsed.subjectName) p.set('subjectName', parsed.subjectName);
+                  if (parsed.workType) p.set('type', parsed.workType);
+                  if (parsed.description) p.set('desc', parsed.description);
+                  if (!parsed.description && text.length <= 110) p.set('desc', text);
+                  router.push(`/dashboard/orders/new?${p.toString()}`);
                 }}
                 className="px-5 py-2 rounded-lg bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] text-white text-sm font-semibold transition-colors"
               >
@@ -159,7 +168,7 @@ export default function DashboardPage() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {activeTasks.slice(0, 6).map(task => (
               <Link key={task.id} href={`/dashboard/orders/${task.id}`}
-                className="bg-white rounded-2xl border border-[var(--dash-border)] p-4 hover:shadow-md hover:border-[var(--dash-accent-light)] transition-all">
+                className="bg-white rounded-xl border border-[var(--dash-border)] p-4 hover:shadow-md hover:border-[var(--dash-accent-light)] transition-all">
                 <div className="flex items-center gap-2 mb-2">
                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${
                     task.status === 'in_progress' ? 'bg-blue-50 text-blue-700' :
@@ -189,13 +198,13 @@ export default function DashboardPage() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {POPULAR_SERVICES.slice(0, 8).map(s => (
-            <div key={s.name} className="bg-white rounded-2xl border border-[var(--dash-border)] p-4 hover:shadow-md transition-all flex flex-col">
-              <div className="w-12 h-12 rounded-xl mb-3 flex items-center justify-center" style={{ background: s.color }}>
+            <div key={s.name} className="bg-white rounded-xl border border-[var(--dash-border)] p-4 hover:shadow-md transition-all flex flex-col">
+              <div className="w-12 h-12 rounded-lg mb-3 flex items-center justify-center" style={{ background: s.color }}>
                 <div className="w-6 h-6 rounded" style={{ background: s.accent, opacity: 0.7 }} />
               </div>
               <h3 className="text-sm font-semibold text-[var(--dash-text)] mb-1">{s.name}</h3>
               <p className="text-xs text-[var(--dash-text-muted)] mb-3">від {s.price} ₴</p>
-              <Link href={`/dashboard/orders/new?type=${encodeURIComponent(s.name)}`}
+              <Link href={`/dashboard/orders/new?type=${encodeURIComponent(s.name)}&subject=&subjectName=`}
                 className="mt-auto inline-flex items-center justify-center px-3 py-2 rounded-lg bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] text-white text-xs font-semibold transition-colors">
                 Створити завдання
               </Link>
@@ -227,7 +236,7 @@ export default function DashboardPage() {
 
       {/* No Tasks CTA */}
       {myTasks.length === 0 && (
-        <section className="bg-white rounded-2xl border border-[var(--dash-border)] p-10 text-center">
+        <section className="bg-white rounded-xl border border-[var(--dash-border)] p-10 text-center">
           <div className="text-5xl mb-4">📚</div>
           <h2 className="text-xl font-bold text-[var(--dash-text)] mb-2">Ще немає завдань</h2>
           <p className="text-sm text-[var(--dash-text-muted)] mb-5 max-w-md mx-auto">Створіть перше завдання — отримайте відгуки від експертів за 5 хвилин</p>

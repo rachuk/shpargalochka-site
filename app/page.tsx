@@ -35,7 +35,7 @@ export default async function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="flex flex-wrap gap-2 mb-6">
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-violet-500/20 text-violet-300 px-3 py-1.5 rounded-full border border-violet-500/20">
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-teal-500/20 text-teal-300 px-3 py-1.5 rounded-full border border-teal-500/20">
                   <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                   Перевірені автори
                 </span>
@@ -53,7 +53,7 @@ export default async function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <a href={TELEGRAM_BOT} target="_blank" rel="noopener noreferrer"
-                  className="btn-glow inline-flex items-center justify-center bg-violet-600 hover:bg-violet-500 text-white font-semibold px-8 py-4 rounded-xl text-lg transition-colors">
+                  className="btn-glow inline-flex items-center justify-center bg-teal-600 hover:bg-teal-500 text-white font-semibold px-8 py-4 rounded-xl text-lg transition-colors">
                   Знайти автора
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </a>
@@ -94,7 +94,7 @@ export default async function HomePage() {
                   </div>
                 </div>
               </div>
-              <div className="absolute -top-4 -right-4 w-32 h-32 bg-violet-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute -top-4 -right-4 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl"></div>
               <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
             </div>
           </div>
@@ -105,12 +105,12 @@ export default async function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-violet-600 uppercase tracking-wider">Простий процес</span>
+            <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">Простий процес</span>
             <h2 className="text-3xl font-bold mt-2">Як це працює</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-0">
             {[
-              { num: '1', title: 'Опишіть завдання', desc: 'Тип роботи, предмет, вимоги та терміни', color: 'bg-violet-600' },
+              { num: '1', title: 'Опишіть завдання', desc: 'Тип роботи, предмет, вимоги та терміни', color: 'bg-teal-600' },
               { num: '2', title: 'Порівняйте авторів', desc: 'Рейтинги, відгуки, ціни та спеціалізації', color: 'bg-blue-600' },
               { num: '3', title: 'Оберіть виконавця', desc: 'Домовтеся про ціну та строки напряму', color: 'bg-emerald-600' },
               { num: '4', title: 'Отримайте результат', desc: 'Перевірте роботу та залиште відгук', color: 'bg-amber-500' },
@@ -131,20 +131,20 @@ export default async function HomePage() {
         <section className="py-20 bg-gray-50">
           <div className="max-w-5xl mx-auto px-4">
             <div className="text-center mb-14">
-              <span className="text-sm font-semibold text-violet-600 uppercase tracking-wider">55+ типів робіт</span>
+              <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">55+ типів робіт</span>
               <h2 className="text-3xl font-bold mt-2">Популярні послуги</h2>
             </div>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {workTypes.slice(0, 12).map(wt => (
                 <Link key={wt.id} href={`/services/${wt.slug}`}
-                  className="group flex items-center gap-3 px-5 py-4 rounded-xl bg-white border border-gray-100 hover:border-violet-300 hover:shadow-lg transition-all card-hover">
+                  className="group flex items-center gap-3 px-5 py-4 rounded-xl bg-white border border-gray-100 hover:border-teal-300 hover:shadow-lg transition-all card-hover">
                   <span className="text-xl shrink-0">{SERVICE_ICONS[wt.slug] || '📎'}</span>
-                  <span className="font-medium text-gray-700 group-hover:text-violet-700 text-sm transition-colors">{wt.name}</span>
+                  <span className="font-medium text-gray-700 group-hover:text-teal-700 text-sm transition-colors">{wt.name}</span>
                 </Link>
               ))}
             </div>
             <div className="text-center mt-10">
-              <Link href="/services" className="inline-flex items-center gap-2 text-violet-700 font-semibold hover:underline text-sm">
+              <Link href="/services" className="inline-flex items-center gap-2 text-teal-700 font-semibold hover:underline text-sm">
                 Усі послуги
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </Link>
@@ -154,7 +154,7 @@ export default async function HomePage() {
       )}
 
       {/* Guarantee */}
-      <section className="bg-violet-700 text-white py-16">
+      <section className="bg-teal-700 text-white py-16">
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid sm:grid-cols-3 gap-8">
             {[
@@ -166,7 +166,7 @@ export default async function HomePage() {
                 <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center text-2xl shrink-0">{item.icon}</div>
                 <div>
                   <h3 className="font-bold text-lg mb-1">{item.title}</h3>
-                  <p className="text-violet-200 text-sm leading-relaxed">{item.desc}</p>
+                  <p className="text-teal-200 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -178,13 +178,13 @@ export default async function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-14">
-            <span className="text-sm font-semibold text-violet-600 uppercase tracking-wider">Реальні відгуки</span>
+            <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">Реальні відгуки</span>
             <h2 className="text-3xl font-bold mt-2">Що кажуть наші клієнти</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
               <div key={i} className="bg-gray-50 rounded-2xl p-6 card-hover relative">
-                <svg className="absolute top-4 right-4 w-8 h-8 text-violet-100" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151C7.546 6.068 5.983 8.789 5.983 11h4v10H0z" /></svg>
+                <svg className="absolute top-4 right-4 w-8 h-8 text-teal-100" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151C7.546 6.068 5.983 8.789 5.983 11h4v10H0z" /></svg>
                 <div className="flex items-center gap-3 mb-4">
                   <Image src={t.avatar} alt={t.name} width={44} height={44} className="w-11 h-11 rounded-full object-cover shrink-0" />
                   <div>
@@ -198,7 +198,7 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="text-center mt-10">
-            <Link href="/reviews" className="inline-flex items-center gap-2 text-violet-700 font-semibold hover:underline text-sm">
+            <Link href="/reviews" className="inline-flex items-center gap-2 text-teal-700 font-semibold hover:underline text-sm">
               Усі відгуки
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </Link>
@@ -210,24 +210,24 @@ export default async function HomePage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-14">
-            <span className="text-sm font-semibold text-violet-600 uppercase tracking-wider">Блог</span>
+            <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">Блог</span>
             <h2 className="text-3xl font-bold mt-2">Корисні статті для студентів</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {getBlogPosts().slice(0, 3).map(post => (
               <Link key={post.slug} href={`/blog/${post.slug}`}
                 className="group block bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover">
-                <div className="h-2 bg-gradient-to-r from-violet-500 to-blue-500"></div>
+                <div className="h-2 bg-gradient-to-r from-teal-500 to-blue-500"></div>
                 <div className="p-6">
-                  <span className="text-xs font-medium text-violet-700 bg-violet-50 px-2.5 py-1 rounded-full">{post.category}</span>
-                  <h3 className="font-semibold text-gray-900 mt-3 mb-2 group-hover:text-violet-700 transition-colors">{post.title}</h3>
+                  <span className="text-xs font-medium text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full">{post.category}</span>
+                  <h3 className="font-semibold text-gray-900 mt-3 mb-2 group-hover:text-teal-700 transition-colors">{post.title}</h3>
                   <p className="text-gray-500 text-sm line-clamp-2">{post.description}</p>
                 </div>
               </Link>
             ))}
           </div>
           <div className="text-center mt-10">
-            <Link href="/blog" className="inline-flex items-center gap-2 text-violet-700 font-semibold hover:underline text-sm">
+            <Link href="/blog" className="inline-flex items-center gap-2 text-teal-700 font-semibold hover:underline text-sm">
               Усі статті
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
             </Link>
@@ -238,14 +238,14 @@ export default async function HomePage() {
       {/* Final CTA */}
       <section className="cta-gradient text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-violet-400 blur-[100px]"></div>
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-teal-400 blur-[100px]"></div>
           <div className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-blue-400 blur-[80px]"></div>
         </div>
         <div className="max-w-3xl mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Потрібна допомога з роботою?</h2>
           <p className="text-gray-400 mb-10 text-lg max-w-md mx-auto">Опишіть завдання у Telegram-боті та отримайте пропозиції від авторів за хвилину</p>
           <a href={TELEGRAM_BOT} target="_blank" rel="noopener noreferrer"
-            className="btn-glow inline-flex items-center justify-center bg-violet-600 hover:bg-violet-500 text-white font-semibold px-10 py-4 rounded-xl text-lg transition-colors">
+            className="btn-glow inline-flex items-center justify-center bg-teal-600 hover:bg-teal-500 text-white font-semibold px-10 py-4 rounded-xl text-lg transition-colors">
             Написати в Telegram
             <svg className="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.832.942z" /></svg>
           </a>

@@ -17,6 +17,8 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 });
 
+const ALLOWED_CHAT_IDS = ['229956339', '5609072359'];
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +30,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     fetchMe()
-      .then(setUser)
+      .then(u => {
+        if (ALLOWED_CHAT_IDS.length > 0 && !ALLOWED_CHAT_IDS.includes(String(u.chat_id))) {
+          clearTokens();
+          setUser(null);
+        } else {
+          setUser(u);
+        }
+      })
       .catch(() => clearTokens())
       .finally(() => setIsLoading(false));
   }, []);
@@ -36,6 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (data: TelegramLoginData) => {
     const userInfo = await loginWithTelegram(data);
     const full = await fetchMe();
+    if (ALLOWED_CHAT_IDS.length > 0 && !ALLOWED_CHAT_IDS.includes(String(full.chat_id))) {
+      clearTokens();
+      throw new Error('Платформа тимчасово закрита для нових користувачів. Слідкуйте за оновленнями!');
+    }
     setUser(full);
   }, []);
 

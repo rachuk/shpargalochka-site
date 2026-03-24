@@ -14,7 +14,7 @@ export default function OgImage() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px' }}>
           <div style={{
-            width: '56px', height: '56px', backgroundColor: '#6d28d9', borderRadius: '12px',
+            width: '56px', height: '56px', backgroundColor: '#0F766E', borderRadius: '12px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             color: 'white', fontSize: '32px', fontWeight: 700,
           }}>Ш</div>

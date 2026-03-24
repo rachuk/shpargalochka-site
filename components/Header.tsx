@@ -22,23 +22,23 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center gap-2 text-xl font-bold text-violet-700">
-          <span className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">Ш</span>
+        <Link href="/" className="flex items-center gap-2 text-xl font-bold text-teal-700">
+          <span className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">Ш</span>
           Шпаргалочка
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {NAV.map(n => (
             <Link key={n.to} href={n.to}
-              className={`text-sm font-medium transition-colors ${pathname.startsWith(n.to) ? 'text-violet-700' : 'text-gray-600 hover:text-gray-900'}`}>
+              className={`text-sm font-medium transition-colors ${pathname.startsWith(n.to) ? 'text-teal-700' : 'text-gray-600 hover:text-gray-900'}`}>
               {n.label}
             </Link>
           ))}
           <Link href="/login"
-            className="border border-violet-200 hover:border-violet-300 text-violet-700 px-4 py-2 rounded-xl text-sm font-semibold transition-colors">
+            className="border border-teal-200 hover:border-teal-300 text-teal-700 px-4 py-2 rounded-xl text-sm font-semibold transition-colors">
             Увійти
           </Link>
           <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-            className="bg-violet-700 hover:bg-violet-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors shadow-sm shadow-violet-200">
+            className="bg-teal-700 hover:bg-teal-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors shadow-sm shadow-teal-200">
             Замовити роботу
           </a>
         </nav>
@@ -53,14 +53,14 @@ export function Header() {
         <div className="md:hidden border-t border-gray-100 bg-white px-4 pb-4">
           {NAV.map(n => (
             <Link key={n.to} href={n.to} onClick={() => setOpen(false)}
-              className="block py-2.5 text-sm font-medium text-gray-700 hover:text-violet-700">{n.label}</Link>
+              className="block py-2.5 text-sm font-medium text-gray-700 hover:text-teal-700">{n.label}</Link>
           ))}
           <Link href="/login" onClick={() => setOpen(false)}
-            className="block mt-3 text-center border border-violet-200 text-violet-700 px-5 py-2.5 rounded-xl text-sm font-semibold">
+            className="block mt-3 text-center border border-teal-200 text-teal-700 px-5 py-2.5 rounded-xl text-sm font-semibold">
             Увійти
           </Link>
           <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer"
-            className="block mt-2 text-center bg-violet-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
+            className="block mt-2 text-center bg-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold">
             Замовити роботу
           </a>
         </div>

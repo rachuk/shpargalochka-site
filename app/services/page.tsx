@@ -20,7 +20,7 @@ export default async function ServicesPage() {
         </p>
         <p>
           Або одразу опишіть завдання в нашому
-          <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer" className="text-violet-700 font-medium hover:underline ml-1">Telegram-боті</a> — і отримайте пропозиції від авторів з рейтингом.
+          <a href="https://t.me/Shpargalochka_bot" target="_blank" rel="noopener noreferrer" className="text-teal-700 font-medium hover:underline ml-1">Telegram-боті</a> — і отримайте пропозиції від авторів з рейтингом.
         </p>
       </div>
 
@@ -28,8 +28,8 @@ export default async function ServicesPage() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {workTypes.map(wt => (
             <Link key={wt.id} href={`/services/${wt.slug}`}
-              className="block px-5 py-4 rounded-lg bg-white border border-gray-200 hover:border-violet-300 hover:shadow-sm transition-all">
-              <h2 className="font-medium text-gray-800 hover:text-violet-700 text-sm">{wt.name}</h2>
+              className="block px-5 py-4 rounded-lg bg-white border border-gray-200 hover:border-teal-300 hover:shadow-sm transition-all">
+              <h2 className="font-medium text-gray-800 hover:text-teal-700 text-sm">{wt.name}</h2>
             </Link>
           ))}
         </div>

@@ -25,7 +25,7 @@ export function AuthorsClient() {
               <h2 className="text-3xl font-bold mb-4">Готові почати?</h2>
               <p className="text-gray-600 mb-8 text-lg">Заповніть коротку анкету — і ми зв&apos;яжемося з вами протягом 24 годин</p>
               <button onClick={() => setShowForm(true)}
-                className="bg-violet-700 hover:bg-violet-800 text-white px-10 py-4 rounded-xl text-lg font-semibold transition-colors cursor-pointer">
+                className="bg-teal-700 hover:bg-teal-800 text-white px-10 py-4 rounded-xl text-lg font-semibold transition-colors cursor-pointer">
                 Заповнити анкету
               </button>
             </div>

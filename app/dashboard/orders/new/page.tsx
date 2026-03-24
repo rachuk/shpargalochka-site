@@ -43,6 +43,10 @@ export default function NewOrderPage() {
     if (t) setWorkType(t);
     const d = searchParams.get('desc');
     if (d) setMore(d);
+    const s = searchParams.get('subject');
+    if (s) setSubject(s);
+    const sn = searchParams.get('subjectName');
+    if (sn) setSubjectName(sn);
   }, [searchParams]);
 
   useEffect(() => {
@@ -97,7 +101,7 @@ export default function NewOrderPage() {
   return (
     <div className="animate-slide-up -mx-4 md:-mx-6 lg:-mx-8 -mt-4 md:-mt-6 lg:-mt-8">
       {/* Purple header — Author24 style */}
-      <div className="bg-gradient-to-r from-[#6c5ce7] via-[#7c6cf0] to-[#8b7bef] px-4 md:px-8 pt-6 pb-5">
+      <div className="bg-gradient-to-r from-[#0D9488] via-[#0F766E] to-[#14B8A6] px-4 md:px-8 pt-6 pb-5">
         <div className="max-w-4xl mx-auto">
           <button onClick={() => router.back()} className="flex items-center gap-1 text-white/70 hover:text-white text-sm mb-3 transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
@@ -118,14 +122,14 @@ export default function NewOrderPage() {
           <div className="flex flex-col lg:flex-row gap-6 mt-6">
             {/* Left: form fields */}
             <div className="flex-1 min-w-0">
-              <div className="bg-white rounded-2xl border border-[var(--dash-border)] p-5 md:p-6 space-y-5">
-                {error && <div className="rounded-xl p-3 border border-red-200 bg-red-50 text-red-700 text-sm">{error}</div>}
+              <div className="bg-white rounded-xl border border-[var(--dash-border)] p-5 md:p-6 space-y-5">
+                {error && <div className="rounded-lg p-3 border border-red-200 bg-red-50 text-red-700 text-sm">{error}</div>}
 
                 {/* Тема роботи */}
                 <div>
                   <label className="block text-sm font-semibold text-[var(--dash-text)] mb-2">Тема роботи</label>
                   <input type="text" value={subject} onChange={e => setSubject(e.target.value)}
-                    placeholder="Назва роботи" maxLength={110} className="dash-input" autoFocus />
+                    placeholder="Назва роботи" maxLength={110} className="dash-input text-base" autoFocus />
                   <p className="text-[10px] text-[var(--dash-text-muted)] mt-1">{subject.length}/110</p>
                 </div>
 
@@ -140,7 +144,7 @@ export default function NewOrderPage() {
                     <svg className={`w-4 h-4 text-[var(--dash-text-muted)] transition-transform ${subjectOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                   </button>
                   {subjectOpen && (
-                    <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[var(--dash-border)] rounded-xl shadow-xl max-h-60 overflow-hidden">
+                    <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[var(--dash-border)] rounded-lg shadow-xl max-h-60 overflow-hidden">
                       <div className="p-2 border-b border-[var(--dash-border)]">
                         <input type="text" value={subjectSearch} onChange={e => setSubjectSearch(e.target.value)}
                           placeholder="Пошук предмета..." className="w-full px-3 py-2 text-sm border border-[var(--dash-border)] rounded-lg outline-none focus:border-[var(--dash-accent)]" autoFocus />
@@ -168,7 +172,7 @@ export default function NewOrderPage() {
                     <svg className={`w-4 h-4 text-[var(--dash-text-muted)] transition-transform ${workTypeOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                   </button>
                   {workTypeOpen && (
-                    <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[var(--dash-border)] rounded-xl shadow-xl max-h-60 overflow-y-auto">
+                    <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[var(--dash-border)] rounded-lg shadow-xl max-h-60 overflow-y-auto">
                       {WORK_TYPES.map(wt => (
                         <button key={wt} type="button" onClick={() => { setWorkType(wt); setWorkTypeOpen(false); }}
                           className={`w-full text-left px-4 py-2.5 text-sm hover:bg-[var(--dash-accent-bg)] transition-colors ${workType === wt ? 'text-[var(--dash-accent)] font-medium bg-[var(--dash-accent-bg)]' : 'text-[var(--dash-text)]'}`}>
@@ -215,7 +219,7 @@ export default function NewOrderPage() {
               {/* Mobile submit */}
               <div className="lg:hidden mt-4">
                 <button type="submit" disabled={submitting || !subject.trim()}
-                  className="w-full py-3.5 rounded-xl bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] disabled:opacity-50 text-white font-semibold text-base transition-colors">
+                  className="w-full py-3.5 rounded-lg bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] disabled:opacity-50 text-white font-semibold text-base transition-colors">
                   {submitting ? 'Створюємо...' : 'Розмістити завдання'}
                 </button>
               </div>
@@ -223,12 +227,12 @@ export default function NewOrderPage() {
 
             {/* Right column */}
             <div className="w-full lg:w-72 shrink-0 space-y-4">
-              {/* File drop zone — yellow like Author24 */}
+              {/* File drop zone */}
               <div
                 onDragOver={e => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={handleDrop}
-                className={`rounded-2xl p-6 text-center transition-all cursor-pointer ${
+                className={`rounded-xl p-6 text-center transition-all cursor-pointer ${
                   dragOver ? 'bg-[var(--dash-accent-bg)] border-2 border-[var(--dash-accent)]' : 'bg-amber-50 border-2 border-dashed border-amber-200'
                 }`}
                 onClick={() => fileInputRef.current?.click()}
@@ -245,7 +249,7 @@ export default function NewOrderPage() {
               {files.length > 0 && (
                 <div className="space-y-2">
                   {files.map((f, i) => (
-                    <div key={i} className="flex items-center justify-between rounded-xl bg-[var(--dash-accent-bg)] px-3 py-2">
+                    <div key={i} className="flex items-center justify-between rounded-lg bg-[var(--dash-accent-bg)] px-3 py-2">
                       <span className="text-xs text-[var(--dash-text)] truncate">{f.name}</span>
                       <button type="button" onClick={() => removeFile(i)} className="text-[var(--dash-text-muted)] hover:text-red-500 ml-2">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -256,11 +260,11 @@ export default function NewOrderPage() {
               )}
 
               {/* Submit sidebar */}
-              <div className="hidden lg:block bg-white rounded-2xl border border-[var(--dash-border)] p-5">
+              <div className="hidden lg:block bg-white rounded-xl border border-[var(--dash-border)] p-5">
                 <h3 className="font-bold text-sm text-[var(--dash-text)] mb-1">Розмісти завдання</h3>
                 <p className="text-xs text-[var(--dash-text-muted)] mb-4">І отримай відгуки через 5 хвилин — це безкоштовно</p>
                 <button type="submit" disabled={submitting || !subject.trim()}
-                  className="w-full py-3 rounded-xl bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] disabled:opacity-50 text-white font-semibold transition-colors">
+                  className="w-full py-3 rounded-lg bg-[var(--dash-accent)] hover:bg-[var(--dash-accent-hover)] disabled:opacity-50 text-white font-semibold transition-colors">
                   {submitting ? 'Створюємо...' : 'Розмістити завдання'}
                 </button>
                 <p className="text-[10px] text-[var(--dash-text-muted)] mt-3 flex items-center gap-1.5">
